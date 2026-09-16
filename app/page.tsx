@@ -37,7 +37,7 @@ export default function Home() {
               and create personalised recommendations.
             </p>
 
-            <button className="button">
+            <button className="button">onClick={() => setStarted(true)}
               Start Personalisation →
             </button>
           </div>
