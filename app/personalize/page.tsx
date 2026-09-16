@@ -179,11 +179,14 @@ export default function Personalize() {
             </div>
 
             <button
-              className="continue"
-              onClick={() => alert("Your Style Guide is coming next!")}
-            >
-              Create My Style Guide ✨
-            </button>
+  className="continue"
+  onClick={() => {
+    window.location.href =
+      `/results?occasion=${encodeURIComponent(occasion)}&style=${encodeURIComponent(style)}`;
+  }}
+>
+  Create My Style Guide ✨
+</button>
           </>
         )}
 
