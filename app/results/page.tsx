@@ -2,306 +2,198 @@
 
 import { useEffect, useState } from "react";
 
-export default function Results() {
-  const [occasion, setOccasion] = useState("Everyday / Casual");
-  const [style, setStyle] = useState("Classic");
+export default function ResultsPage() {
+  const [occasion, setOccasion] = useState("");
+  const [style, setStyle] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
-    const savedOccasion = params.get("occasion");
-    const savedStyle = params.get("style");
-
-    if (savedOccasion) {
-      setOccasion(savedOccasion);
-    }
-
-    if (savedStyle) {
-      setStyle(savedStyle);
-    }
+    setOccasion(params.get("occasion") || "Everyday");
+    setStyle(params.get("style") || "Effortless");
   }, []);
 
+  const goToWardrobe = () => {
+    window.location.href = "/wardrobe";
+  };
+
   return (
-    <main className="page">
-      <div className="container">
-
-        <p className="eyebrow">YOUR PERSONAL STYLE GUIDE</p>
-
-        <h1>
-          Your style,
-          <br />
-          personalized.
-        </h1>
-
-        <p className="intro">
-          Here&apos;s your starting point based on your preferences.
-        </p>
-
-        <section className="card">
-          <p className="label">YOUR STYLE PROFILE</p>
-
-          <h2>{style}</h2>
-
-          <p>
-            Created for <strong>{occasion}</strong>.
-          </p>
-        </section>
-
-        <section className="section">
-          <p className="label">COLORS TO EXPLORE</p>
-
-          <h2>Build your color palette</h2>
-
-          <p>
-            Start with versatile shades that work beautifully with your
-            personal style.
-          </p>
-
-          <div className="colors">
-            <div className="color one">Cream</div>
-            <div className="color two">Taupe</div>
-            <div className="color three">Brown</div>
-            <div className="color four">Black</div>
-          </div>
-        </section>
-
-        <section className="section">
-          <p className="label">OUTFIT IDEAS</p>
-
-          <h2>Looks made for you</h2>
-
-          <div className="outfits">
-
-            <div className="outfit">
-              <span>LOOK 01</span>
-              <h3>Effortless Classic</h3>
-              <p>
-                Clean layers · relaxed trousers · simple accessories
-              </p>
-            </div>
-
-            <div className="outfit">
-              <span>LOOK 02</span>
-              <h3>Polished Everyday</h3>
-              <p>
-                Structured top · straight-leg bottoms · refined details
-              </p>
-            </div>
-
-            <div className="outfit">
-              <span>LOOK 03</span>
-              <h3>Soft Statement</h3>
-              <p>
-                Elegant silhouette · complementary colors · minimal jewelry
-              </p>
-            </div>
-
-          </div>
-        </section>
-
-        <section className="closet">
-
-          <p className="label">YOUR WARDROBE</p>
-
-          <h2>Style what you already own.</h2>
-
-          <p>
-            Take photos of your clothes and create personalized outfits
-            using pieces already in your closet.
-          </p>
-
+    <main className="min-h-screen bg-[#f5f2ed] text-[#171717]">
+      {/* HEADER */}
+      <header className="border-b border-black/10">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6 md:px-8">
           <button
-            onClick={() =>
-              alert("Your wardrobe feature is coming next!")
-            }
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            className="text-sm text-black/50 hover:text-black"
           >
-            Build an Outfit From My Closet →
+            ← Start Over
           </button>
 
-        </section>
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-black/40">
+              Your Personal
+            </p>
 
-      </div>
+            <h1 className="font-serif text-2xl">
+              Style Guide
+            </h1>
+          </div>
 
-      <style jsx>{`
-        .page {
-          min-height: 100vh;
-          background: #faf7f2;
-          color: #2d2926;
-          padding: 50px 22px 80px;
-          font-family: Arial, sans-serif;
-        }
+          <div className="w-[70px]" />
+        </div>
+      </header>
 
-        .container {
-          max-width: 680px;
-          margin: 0 auto;
-        }
+      {/* INTRO */}
+      <section className="mx-auto max-w-6xl px-5 pb-10 pt-12 md:px-8 md:pt-16">
+        <p className="text-xs uppercase tracking-[0.25em] text-black/40">
+          Your results
+        </p>
 
-        .eyebrow {
-          color: #8a7d72;
-          font-size: 12px;
-          letter-spacing: 4px;
-          margin-bottom: 28px;
-        }
+        <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-tight md:text-6xl">
+          Your style,
+          <br />
+          <span className="italic">made personal.</span>
+        </h2>
 
-        h1 {
-          font-family: Georgia, serif;
-          font-size: 52px;
-          line-height: 1.05;
-          font-weight: 500;
-          margin: 0 0 24px;
-        }
+        <p className="mt-5 max-w-xl text-base leading-7 text-black/55">
+          Based on your preferences, here are some style directions created
+          especially for you.
+        </p>
 
-        .intro {
-          color: #706861;
-          font-size: 19px;
-          line-height: 1.6;
-          margin-bottom: 40px;
-        }
+        <div className="mt-6 flex flex-wrap gap-2">
+          <span className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs">
+            {occasion}
+          </span>
 
-        .card {
-          background: white;
-          border: 1px solid #ddd5ce;
-          border-radius: 20px;
-          padding: 28px;
-          margin-bottom: 55px;
-        }
+          <span className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs">
+            {style}
+          </span>
+        </div>
+      </section>
 
-        .label {
-          color: #8a7d72;
-          font-size: 12px;
-          letter-spacing: 3px;
-          margin-bottom: 12px;
-        }
+      {/* LOOKS */}
+      <section className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="grid gap-5 md:grid-cols-3">
 
-        h2 {
-          font-family: Georgia, serif;
-          font-size: 30px;
-          font-weight: 500;
-          margin: 8px 0 14px;
-        }
+          {/* LOOK 01 */}
+          <div className="rounded-[28px] border border-black/10 bg-white p-7">
+            <p className="text-xs uppercase tracking-[0.25em] text-black/40">
+              Look 01
+            </p>
 
-        .card p:not(.label) {
-          color: #706861;
-          font-size: 17px;
-        }
+            <h3 className="mt-5 font-serif text-3xl">
+              Effortless Classic
+            </h3>
 
-        .section {
-          margin-bottom: 55px;
-        }
+            <p className="mt-4 text-sm leading-6 text-black/55">
+              Clean silhouettes · neutral tones · timeless pieces
+            </p>
 
-        .section > p:not(.label) {
-          color: #706861;
-          font-size: 17px;
-          line-height: 1.6;
-        }
+            <div className="mt-8 h-px bg-black/10" />
 
-        .colors {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          margin-top: 24px;
-        }
+            <p className="mt-5 text-xs uppercase tracking-[0.2em] text-black/35">
+              Style direction
+            </p>
 
-        .color {
-          height: 100px;
-          border-radius: 16px;
-          display: flex;
-          align-items: flex-end;
-          padding: 15px;
-          font-size: 14px;
-        }
+            <p className="mt-2 text-sm leading-6 text-black/60">
+              Structured basics paired with relaxed, polished details.
+            </p>
+          </div>
 
-        .one {
-          background: #eee5d6;
-        }
+          {/* LOOK 02 */}
+          <div className="rounded-[28px] border border-black/10 bg-white p-7">
+            <p className="text-xs uppercase tracking-[0.25em] text-black/40">
+              Look 02
+            </p>
 
-        .two {
-          background: #c7b7a3;
-        }
+            <h3 className="mt-5 font-serif text-3xl">
+              Modern Ease
+            </h3>
 
-        .three {
-          background: #806b58;
-          color: white;
-        }
+            <p className="mt-4 text-sm leading-6 text-black/55">
+              Structured top · straight-leg bottoms · refined details
+            </p>
 
-        .four {
-          background: #292725;
-          color: white;
-        }
+            <div className="mt-8 h-px bg-black/10" />
 
-        .outfits {
-          display: grid;
-          gap: 14px;
-          margin-top: 25px;
-        }
+            <p className="mt-5 text-xs uppercase tracking-[0.2em] text-black/35">
+              Style direction
+            </p>
 
-        .outfit {
-          background: white;
-          border: 1px solid #ddd5ce;
-          border-radius: 18px;
-          padding: 24px;
-        }
+            <p className="mt-2 text-sm leading-6 text-black/60">
+              Simple proportions with subtle statement pieces.
+            </p>
+          </div>
 
-        .outfit span {
-          font-size: 11px;
-          letter-spacing: 2px;
-          color: #8a7d72;
-        }
+          {/* LOOK 03 */}
+          <div className="rounded-[28px] border border-black/10 bg-white p-7">
+            <p className="text-xs uppercase tracking-[0.25em] text-black/40">
+              Look 03
+            </p>
 
-        .outfit h3 {
-          font-family: Georgia, serif;
-          font-size: 22px;
-          font-weight: 500;
-          margin: 12px 0 8px;
-        }
+            <h3 className="mt-5 font-serif text-3xl">
+              Soft Statement
+            </h3>
 
-        .outfit p {
-          color: #706861;
-          line-height: 1.5;
-          margin: 0;
-        }
+            <p className="mt-4 text-sm leading-6 text-black/55">
+              Elegant silhouette · complementary colors · minimal jewelry
+            </p>
 
-        .closet {
-          background: #2d2926;
-          color: white;
-          border-radius: 22px;
-          padding: 30px;
-        }
+            <div className="mt-8 h-px bg-black/10" />
 
-        .closet .label {
-          color: #cfc5bc;
-        }
+            <p className="mt-5 text-xs uppercase tracking-[0.2em] text-black/35">
+              Style direction
+            </p>
 
-        .closet h2 {
-          font-size: 32px;
-        }
+            <p className="mt-2 text-sm leading-6 text-black/60">
+              Feminine balance with understated accessories and thoughtful
+              color choices.
+            </p>
+          </div>
 
-        .closet p:not(.label) {
-          color: #ddd5ce;
-          line-height: 1.6;
-          font-size: 16px;
-        }
+        </div>
+      </section>
 
-        button {
-          width: 100%;
-          margin-top: 20px;
-          padding: 17px;
-          border: none;
-          border-radius: 30px;
-          background: white;
-          color: #2d2926;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-        }
+      {/* WARDROBE SECTION */}
+      <section className="mx-auto max-w-6xl px-5 pb-16 pt-10 md:px-8">
+        <div className="overflow-hidden rounded-[32px] bg-[#171717] px-6 py-10 text-white md:px-10 md:py-14">
 
-        @media (max-width: 500px) {
-          h1 {
-            font-size: 45px;
-          }
-        }
-      `}</style>
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+              Your wardrobe
+            </p>
 
+            <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
+              Turn your own clothes
+              <br />
+              into <span className="italic">your looks.</span>
+            </h2>
+
+            <p className="mt-5 max-w-xl text-sm leading-7 text-white/55 md:text-base">
+              Take photos of your clothes and create personalized outfits
+              using pieces already in your closet.
+            </p>
+
+            <button
+              onClick={goToWardrobe}
+              className="mt-8 rounded-full bg-white px-7 py-4 text-sm font-medium text-black transition hover:bg-white/90"
+            >
+              Build an Outfit From My Closet
+              <span className="ml-3">→</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-black/10 px-5 py-8 text-center">
+        <p className="text-xs tracking-wide text-black/35">
+          Your style. Your wardrobe. Your way.
+        </p>
+      </footer>
     </main>
   );
-}
+      }
