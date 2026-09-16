@@ -25,19 +25,33 @@ export default function Personalize() {
     "Edgy",
   ];
 
-  const choosePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
+
     if (file) {
       setPhoto(URL.createObjectURL(file));
     }
-  };
+  }
+
+  function goToResults() {
+    const url =
+      "/results?occasion=" +
+      encodeURIComponent(occasion) +
+      "&style=" +
+      encodeURIComponent(style);
+
+    window.location.href = url;
+  }
 
   return (
     <main className="page">
       <div className="box">
 
         {step > 1 && (
-          <button className="back" onClick={() => setStep(step - 1)}>
+          <button
+            className="back"
+            onClick={() => setStep(step - 1)}
+          >
             ← Back
           </button>
         )}
@@ -46,7 +60,9 @@ export default function Personalize() {
           <>
             <p className="step">STEP 1 OF 4</p>
 
-            <h1>Let&apos;s get to know your style.</h1>
+            <h1>
+              Let&apos;s get to know your style.
+            </h1>
 
             <p className="description">
               First, tell us what you&apos;re usually dressing for.
@@ -56,7 +72,11 @@ export default function Personalize() {
               {occasions.map((item) => (
                 <button
                   key={item}
-                  className={occasion === item ? "option selected" : "option"}
+                  className={
+                    occasion === item
+                      ? "option selected"
+                      : "option"
+                  }
                   onClick={() => setOccasion(item)}
                 >
                   {item}
@@ -65,7 +85,10 @@ export default function Personalize() {
             </div>
 
             {occasion && (
-              <button className="continue" onClick={() => setStep(2)}>
+              <button
+                className="continue"
+                onClick={() => setStep(2)}
+              >
                 Continue →
               </button>
             )}
@@ -76,7 +99,9 @@ export default function Personalize() {
           <>
             <p className="step">STEP 2 OF 4</p>
 
-            <h1>What feels most like you?</h1>
+            <h1>
+              What feels most like you?
+            </h1>
 
             <p className="description">
               Choose the style you naturally feel drawn to.
@@ -86,7 +111,11 @@ export default function Personalize() {
               {styles.map((item) => (
                 <button
                   key={item}
-                  className={style === item ? "style selected" : "style"}
+                  className={
+                    style === item
+                      ? "style selected"
+                      : "style"
+                  }
                   onClick={() => setStyle(item)}
                 >
                   {item}
@@ -95,7 +124,10 @@ export default function Personalize() {
             </div>
 
             {style && (
-              <button className="continue" onClick={() => setStep(3)}>
+              <button
+                className="continue"
+                onClick={() => setStep(3)}
+              >
                 Continue →
               </button>
             )}
@@ -106,47 +138,62 @@ export default function Personalize() {
           <>
             <p className="step">STEP 3 OF 4</p>
 
-            <h1>Let&apos;s personalize this to you.</h1>
+            <h1>
+              Let&apos;s personalize this to you.
+            </h1>
 
             <p className="description">
-              Add a clear photo in natural light so we can personalize your
-              colors and styling recommendations.
+              Add a clear photo in natural light so we can
+              personalize your colors and styling
+              recommendations.
             </p>
 
-            {!photo ? (
+            {!photo && (
               <label className="photoBox">
                 <span className="camera">📸</span>
-                <strong>Take a photo or upload one</strong>
-                <small>A clear, natural-light photo works best</small>
+
+                <strong>
+                  Take a photo or upload one
+                </strong>
+
+                <small>
+                  A clear, natural-light photo works best
+                </small>
 
                 <input
                   type="file"
                   accept="image/*"
                   capture="user"
-                  onChange={choosePhoto}
+                  onChange={handlePhoto}
                   hidden
                 />
               </label>
-            ) : (
+            )}
+
+            {photo && (
               <>
                 <img
                   src={photo}
-                  alt="Uploaded photo"
+                  alt="Your uploaded photo"
                   className="preview"
                 />
 
                 <label className="change">
                   Choose a different photo
+
                   <input
                     type="file"
                     accept="image/*"
                     capture="user"
-                    onChange={choosePhoto}
+                    onChange={handlePhoto}
                     hidden
                   />
                 </label>
 
-                <button className="continue" onClick={() => setStep(4)}>
+                <button
+                  className="continue"
+                  onClick={() => setStep(4)}
+                >
                   Continue →
                 </button>
               </>
@@ -158,35 +205,43 @@ export default function Personalize() {
           <>
             <p className="step">STEP 4 OF 4</p>
 
-            <h1>Almost there.</h1>
+            <h1>
+              Almost there.
+            </h1>
 
             <p className="description">
-              Your personalized style recommendations are ready to be created.
+              Your personalized style recommendations are
+              ready to be created.
             </p>
 
             <div className="summary">
+
               <p>
-                <strong>Your occasion:</strong> {occasion}
+                <strong>Your occasion:</strong>
+                <br />
+                {occasion}
               </p>
 
               <p>
-                <strong>Your style:</strong> {style}
+                <strong>Your style:</strong>
+                <br />
+                {style}
               </p>
 
               <p>
-                <strong>Your photo:</strong> {photo ? "Added ✓" : "Not added"}
+                <strong>Your photo:</strong>
+                <br />
+                {photo ? "Added ✓" : "Not added"}
               </p>
+
             </div>
 
             <button
-  className="continue"
-  onClick={() => {
-    window.location.href =
-      `/results?occasion=${encodeURIComponent(occasion)}&style=${encodeURIComponent(style)}`;
-  }}
->
-  Create My Style Guide ✨
-</button>
+              className="continue"
+              onClick={goToResults}
+            >
+              Create My Style Guide ✨
+            </button>
           </>
         )}
 
@@ -197,14 +252,14 @@ export default function Personalize() {
           min-height: 100vh;
           background: #faf7f2;
           color: #2d2926;
-          padding: 50px 24px;
+          padding: 50px 24px 80px;
           box-sizing: border-box;
           font-family: Arial, sans-serif;
         }
 
         .box {
           max-width: 650px;
-          margin: auto;
+          margin: 0 auto;
         }
 
         .step {
@@ -236,6 +291,7 @@ export default function Personalize() {
 
         .option,
         .style {
+          width: 100%;
           background: white;
           border: 1px solid #ddd5ce;
           color: #2d2926;
@@ -244,6 +300,7 @@ export default function Personalize() {
           font-size: 17px;
           text-align: left;
           cursor: pointer;
+          box-sizing: border-box;
         }
 
         .style {
@@ -338,6 +395,14 @@ export default function Personalize() {
           padding: 25px;
           font-size: 17px;
           line-height: 1.5;
+        }
+
+        .summary p {
+          margin: 0 0 20px;
+        }
+
+        .summary p:last-child {
+          margin-bottom: 0;
         }
 
         @media (max-width: 500px) {
