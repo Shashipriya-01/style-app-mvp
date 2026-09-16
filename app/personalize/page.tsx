@@ -4,7 +4,10 @@ import { useState } from "react";
 
 export default function Personalize() {
   const [step, setStep] = useState(1);
+
   const [occasion, setOccasion] = useState("");
+  const [selectedStyle, setSelectedStyle] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
 
   const occasions = [
     "Everyday / Casual",
@@ -23,71 +26,84 @@ export default function Personalize() {
     "Edgy",
   ];
 
-  const [selectedStyle, setSelectedStyle] = useState("");
+  const handlePhotoChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
 
+    if (!file) return;
+
+    const imageUrl = URL.createObjectURL(file);
+    setPhoto(imageUrl);
+  };
+
+  // STEP 1
+  if (step === 1) {
+    return (
+      <main style={pageStyle}>
+        <div style={containerStyle}>
+          <p style={stepStyle}>STEP 1 OF 4</p>
+
+          <h1 style={headingStyle}>
+            Let&apos;s get to know your style.
+          </h1>
+
+          <p style={descriptionStyle}>
+            First, tell us what you&apos;re usually dressing for.
+          </p>
+
+          <div style={optionsStyle}>
+            {occasions.map((option) => (
+              <button
+                key={option}
+                onClick={() => setOccasion(option)}
+                style={{
+                  ...optionButtonStyle,
+                  border:
+                    occasion === option
+                      ? "2px solid #2d2926"
+                      : "1px solid #ddd5ce",
+                  background:
+                    occasion === option ? "#eee8e0" : "white",
+                }}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          {occasion && (
+            <button
+              onClick={() => setStep(2)}
+              style={continueButtonStyle}
+            >
+              Continue →
+            </button>
+          )}
+        </div>
+      </main>
+    );
+  }
+
+  // STEP 2
   if (step === 2) {
     return (
-      <main
-        style={{
-          minHeight: "100vh",
-          background: "#faf7f2",
-          color: "#2d2926",
-          fontFamily: "Arial, sans-serif",
-          padding: "50px 24px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "650px",
-            margin: "0 auto",
-          }}
-        >
+      <main style={pageStyle}>
+        <div style={containerStyle}>
           <button
             onClick={() => setStep(1)}
-            style={{
-              background: "none",
-              border: "none",
-              padding: 0,
-              color: "#8a7d72",
-              fontSize: "15px",
-              cursor: "pointer",
-            }}
+            style={backButtonStyle}
           >
             ← Back
           </button>
 
-          <p
-            style={{
-              marginTop: "45px",
-              fontSize: "13px",
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              color: "#8a7d72",
-            }}
-          >
-            STEP 2 OF 4
-          </p>
+          <p style={stepStyle}>STEP 2 OF 4</p>
 
-          <h1
-            style={{
-              fontFamily: "Georgia, serif",
-              fontSize: "44px",
-              lineHeight: "1.15",
-              fontWeight: "500",
-              marginTop: "25px",
-            }}
-          >
+          <h1 style={headingStyle}>
             What feels most like you?
           </h1>
 
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: "1.6",
-              color: "#6f665f",
-              marginTop: "15px",
-            }}
-          >
+          <p style={descriptionStyle}>
             Choose the style you naturally feel drawn to.
           </p>
 
@@ -111,7 +127,9 @@ export default function Personalize() {
                       ? "2px solid #2d2926"
                       : "1px solid #ddd5ce",
                   background:
-                    selectedStyle === style ? "#eee8e0" : "white",
+                    selectedStyle === style
+                      ? "#eee8e0"
+                      : "white",
                   color: "#2d2926",
                   fontSize: "16px",
                   cursor: "pointer",
@@ -125,18 +143,7 @@ export default function Personalize() {
           {selectedStyle && (
             <button
               onClick={() => setStep(3)}
-              style={{
-                width: "100%",
-                marginTop: "35px",
-                padding: "17px",
-                borderRadius: "30px",
-                border: "none",
-                background: "#2d2926",
-                color: "white",
-                fontSize: "16px",
-                fontWeight: "600",
-                cursor: "pointer",
-              }}
+              style={continueButtonStyle}
             >
               Continue →
             </button>
@@ -146,301 +153,190 @@ export default function Personalize() {
     );
   }
 
+  // STEP 3 - PHOTO
   if (step === 3) {
     return (
-      <main
-        style={{
-          minHeight: "100vh",
-          background: "#faf7f2",
-          color: "#2d2926",
-          fontFamily: "Arial, sans-serif",
-          padding: "50px 24px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "650px",
-            margin: "0 auto",
-          }}
-        >
+      <main style={pageStyle}>
+        <div style={containerStyle}>
           <button
             onClick={() => setStep(2)}
-            style={{
-              background: "none",
-              border: "none",
-              padding: 0,
-              color: "#8a7d72",
-              fontSize: "15px",
-              cursor: "pointer",
-            }}
+            style={backButtonStyle}
           >
             ← Back
           </button>
 
-          <p
-            style={{
-              marginTop: "45px",
-              fontSize: "13px",
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              color: "#8a7d72",
-            }}
-          >
-            STEP 3 OF 4
-          </p>
+          <p style={stepStyle}>STEP 3 OF 4</p>
 
-          <h1
-            style={{
-              fontFamily: "Georgia, serif",
-              fontSize: "44px",
-              lineHeight: "1.15",
-              fontWeight: "500",
-              marginTop: "25px",
-            }}
-          >
-            Let&apos;s understand your colors.
+          <h1 style={headingStyle}>
+            Let&apos;s personalize this to you.
           </h1>
 
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: "1.6",
-              color: "#6f665f",
-              marginTop: "15px",
-            }}
-          >
-            This will help us suggest colors that complement your overall
-            look.
+          <p style={descriptionStyle}>
+            Add a photo so we can understand your coloring and create
+            recommendations that feel more personal to you.
           </p>
 
-          <div
-            style={{
-              marginTop: "40px",
-              padding: "25px",
-              borderRadius: "16px",
-              background: "white",
-              border: "1px solid #ddd5ce",
-            }}
-          >
-            <p style={{ margin: 0, fontSize: "16px" }}>
-              In the next version, this step will use your photo to help
-              personalize your color palette.
-            </p>
-          </div>
-
-          <button
-            onClick={() => setStep(4)}
-            style={{
-              width: "100%",
-              marginTop: "35px",
-              padding: "17px",
-              borderRadius: "30px",
-              border: "none",
-              background: "#2d2926",
-              color: "white",
-              fontSize: "16px",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-          >
-            Continue →
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  if (step === 4) {
-    return (
-      <main
-        style={{
-          minHeight: "100vh",
-          background: "#faf7f2",
-          color: "#2d2926",
-          fontFamily: "Arial, sans-serif",
-          padding: "50px 24px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "650px",
-            margin: "0 auto",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "13px",
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              color: "#8a7d72",
-            }}
-          >
-            STEP 4 OF 4
-          </p>
-
-          <h1
-            style={{
-              fontFamily: "Georgia, serif",
-              fontSize: "44px",
-              lineHeight: "1.15",
-              fontWeight: "500",
-              marginTop: "25px",
-            }}
-          >
-            Almost there.
-          </h1>
-
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: "1.6",
-              color: "#6f665f",
-              marginTop: "15px",
-            }}
-          >
-            Your personalized style recommendations are ready to be created.
-          </p>
-
-          <div
-            style={{
-              marginTop: "40px",
-              padding: "25px",
-              borderRadius: "16px",
-              background: "white",
-              border: "1px solid #ddd5ce",
-            }}
-          >
-            <p>
-              <strong>Your occasion:</strong> {occasion}
-            </p>
-
-            <p>
-              <strong>Your style:</strong> {selectedStyle}
-            </p>
-          </div>
-
-          <button
-            style={{
-              width: "100%",
-              marginTop: "35px",
-              padding: "17px",
-              borderRadius: "30px",
-              border: "none",
-              background: "#2d2926",
-              color: "white",
-              fontSize: "16px",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-          >
-            Create My Style Guide ✨
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#faf7f2",
-        color: "#2d2926",
-        fontFamily: "Arial, sans-serif",
-        padding: "50px 24px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "650px",
-          margin: "0 auto",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "13px",
-            letterSpacing: "3px",
-            textTransform: "uppercase",
-            color: "#8a7d72",
-          }}
-        >
-          STEP 1 OF 4
-        </p>
-
-        <h1
-          style={{
-            fontFamily: "Georgia, serif",
-            fontSize: "44px",
-            lineHeight: "1.15",
-            fontWeight: "500",
-            marginTop: "25px",
-          }}
-        >
-          Let&apos;s get to know your style.
-        </h1>
-
-        <p
-          style={{
-            fontSize: "18px",
-            lineHeight: "1.6",
-            color: "#6f665f",
-            marginTop: "15px",
-          }}
-        >
-          First, tell us what you&apos;re usually dressing for.
-        </p>
-
-        <div
-          style={{
-            display: "grid",
-            gap: "14px",
-            marginTop: "40px",
-          }}
-        >
-          {occasions.map((option) => (
-            <button
-              key={option}
-              onClick={() => setOccasion(option)}
+          {!photo ? (
+            <label
               style={{
-                width: "100%",
-                padding: "18px 20px",
-                borderRadius: "14px",
-                border:
-                  occasion === option
-                    ? "2px solid #2d2926"
-                    : "1px solid #ddd5ce",
-                background: occasion === option ? "#eee8e0" : "white",
-                color: "#2d2926",
-                fontSize: "16px",
-                textAlign: "left",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "240px",
+                marginTop: "40px",
+                padding: "30px",
+                borderRadius: "18px",
+                border: "1px dashed #cfc5bc",
+                background: "white",
                 cursor: "pointer",
+                textAlign: "center",
               }}
             >
-              {option}
-            </button>
-          ))}
-        </div>
+              <span
+                style={{
+                  fontSize: "48px",
+                  marginBottom: "15px",
+                }}
+              >
+                📸
+              </span>
 
-        {occasion && (
-          <button
-            onClick={() => setStep(2)}
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "600",
+                }}
+              >
+                Take a photo or upload one
+              </span>
+
+              <span
+                style={{
+                  marginTop: "8px",
+                  fontSize: "14px",
+                  color: "#8a817a",
+                }}
+              >
+                A clear, natural-light photo works best
+              </span>
+
+              <input
+                type="file"
+                accept="image/*"
+                capture="user"
+                onChange={handlePhotoChange}
+                style={{ display: "none" }}
+              />
+            </label>
+          ) : (
+            <div style={{ marginTop: "40px" }}>
+              <div
+                style={{
+                  overflow: "hidden",
+                  borderRadius: "18px",
+                  background: "white",
+                  border: "1px solid #ddd5ce",
+                }}
+              >
+                <img
+                  src={photo}
+                  alt="Your uploaded photo"
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    maxHeight: "420px",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+
+              <label
+                style={{
+                  display: "block",
+                  marginTop: "15px",
+                  textAlign: "center",
+                  fontSize: "14px",
+                  color: "#6f665f",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Choose a different photo
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="user"
+                  onChange={handlePhotoChange}
+                  style={{ display: "none" }}
+                />
+              </label>
+
+              <button
+                onClick={() => setStep(4)}
+                style={continueButtonStyle}
+              >
+                Continue →
+              </button>
+            </div>
+          )}
+
+          <p
             style={{
-              width: "100%",
-              marginTop: "35px",
-              padding: "17px",
-              borderRadius: "30px",
-              border: "none",
-              background: "#2d2926",
-              color: "white",
-              fontSize: "16px",
-              fontWeight: "600",
-              cursor: "pointer",
+              marginTop: "25px",
+              fontSize: "13px",
+              lineHeight: "1.5",
+              color: "#9a918a",
+              textAlign: "center",
             }}
           >
-            Continue →
-          </button>
-        )}
-      </div>
-    </main>
-  );
-            }
+            Your photo will be used to personalize your style
+            recommendations.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  // STEP 4
+  return (
+    <main style={pageStyle}>
+      <div style={containerStyle}>
+        <p style={stepStyle}>STEP 4 OF 4</p>
+
+        <h1 style={headingStyle}>
+          Almost there.
+        </h1>
+
+        <p style={descriptionStyle}>
+          We have what we need to create your personalized style guide.
+        </p>
+
+        <div
+          style={{
+            marginTop: "40px",
+            padding: "25px",
+            borderRadius: "16px",
+            background: "white",
+            border: "1px solid #ddd5ce",
+          }}
+        >
+          <p>
+            <strong>Occasion:</strong> {occasion}
+          </p>
+
+          <p>
+            <strong>Style:</strong> {selectedStyle}
+          </p>
+
+          <p>
+            <strong>Photo:</strong>{" "}
+            {photo ? "Added ✓" : "Not added"}
+          </p>
+        </div>
+
+        <button
+          style={continueButtonStyle}
+        >
+          Create My
