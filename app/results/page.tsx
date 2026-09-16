@@ -1,12 +1,25 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Results() {
-  const params = useSearchParams();
+  const [occasion, setOccasion] = useState("Everyday / Casual");
+  const [style, setStyle] = useState("Classic");
 
-  const occasion = params.get("occasion") || "Everyday / Casual";
-  const style = params.get("style") || "Classic";
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const savedOccasion = params.get("occasion");
+    const savedStyle = params.get("style");
+
+    if (savedOccasion) {
+      setOccasion(savedOccasion);
+    }
+
+    if (savedStyle) {
+      setStyle(savedStyle);
+    }
+  }, []);
 
   return (
     <main className="page">
@@ -14,7 +27,11 @@ export default function Results() {
 
         <p className="eyebrow">YOUR PERSONAL STYLE GUIDE</p>
 
-        <h1>Your style,<br />personalized.</h1>
+        <h1>
+          Your style,
+          <br />
+          personalized.
+        </h1>
 
         <p className="intro">
           Here&apos;s your starting point based on your preferences.
@@ -54,27 +71,36 @@ export default function Results() {
           <h2>Looks made for you</h2>
 
           <div className="outfits">
+
             <div className="outfit">
               <span>LOOK 01</span>
               <h3>Effortless Classic</h3>
-              <p>Clean layers · relaxed trousers · simple accessories</p>
+              <p>
+                Clean layers · relaxed trousers · simple accessories
+              </p>
             </div>
 
             <div className="outfit">
               <span>LOOK 02</span>
               <h3>Polished Everyday</h3>
-              <p>Structured top · straight-leg bottoms · refined details</p>
+              <p>
+                Structured top · straight-leg bottoms · refined details
+              </p>
             </div>
 
             <div className="outfit">
               <span>LOOK 03</span>
               <h3>Soft Statement</h3>
-              <p>Elegant silhouette · complementary colors · minimal jewelry</p>
+              <p>
+                Elegant silhouette · complementary colors · minimal jewelry
+              </p>
             </div>
+
           </div>
         </section>
 
         <section className="closet">
+
           <p className="label">YOUR WARDROBE</p>
 
           <h2>Style what you already own.</h2>
@@ -85,10 +111,13 @@ export default function Results() {
           </p>
 
           <button
-            onClick={() => alert("Wardrobe feature coming next!")}
+            onClick={() =>
+              alert("Your wardrobe feature is coming next!")
+            }
           >
             Build an Outfit From My Closet →
           </button>
+
         </section>
 
       </div>
@@ -104,7 +133,7 @@ export default function Results() {
 
         .container {
           max-width: 680px;
-          margin: auto;
+          margin: 0 auto;
         }
 
         .eyebrow {
@@ -272,6 +301,7 @@ export default function Results() {
           }
         }
       `}</style>
+
     </main>
   );
 }
