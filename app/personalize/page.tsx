@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Personalize() {
   const [step, setStep] = useState(1);
   const [occasion, setOccasion] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("");
+  const [style, setStyle] = useState("");
   const [photo, setPhoto] = useState<string | null>(null);
 
   const occasions = [
@@ -25,239 +25,162 @@ export default function Personalize() {
     "Edgy",
   ];
 
-  function handlePhotoChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = event.target.files?.[0];
-
-    if (!file) return;
-
-    const imageUrl = URL.createObjectURL(file);
-    setPhoto(imageUrl);
-  }
+  const choosePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhoto(URL.createObjectURL(file));
+    }
+  };
 
   return (
-    <main style={pageStyle}>
-      <div style={containerStyle}>
+    <main className="page">
+      <div className="box">
 
-        {/* STEP 1 */}
+        {step > 1 && (
+          <button className="back" onClick={() => setStep(step - 1)}>
+            ← Back
+          </button>
+        )}
+
         {step === 1 && (
           <>
-            <p style={stepStyle}>STEP 1 OF 4</p>
+            <p className="step">STEP 1 OF 4</p>
 
-            <h1 style={headingStyle}>
-              Let&apos;s get to know your style.
-            </h1>
+            <h1>Let&apos;s get to know your style.</h1>
 
-            <p style={descriptionStyle}>
+            <p className="description">
               First, tell us what you&apos;re usually dressing for.
             </p>
 
-            <div style={optionsStyle}>
-              {occasions.map((option) => (
+            <div className="options">
+              {occasions.map((item) => (
                 <button
-                  key={option}
-                  onClick={() => setOccasion(option)}
-                  style={{
-                    ...optionButtonStyle,
-                    border:
-                      occasion === option
-                        ? "2px solid #2d2926"
-                        : "1px solid #ddd5ce",
-                    background:
-                      occasion === option
-                        ? "#eee8e0"
-                        : "white",
-                  }}
+                  key={item}
+                  className={occasion === item ? "option selected" : "option"}
+                  onClick={() => setOccasion(item)}
                 >
-                  {option}
+                  {item}
                 </button>
               ))}
             </div>
 
             {occasion && (
-              <button
-                onClick={() => setStep(2)}
-                style={continueButtonStyle}
-              >
+              <button className="continue" onClick={() => setStep(2)}>
                 Continue →
               </button>
             )}
           </>
         )}
 
-        {/* STEP 2 */}
         {step === 2 && (
           <>
-            <button
-              onClick={() => setStep(1)}
-              style={backButtonStyle}
-            >
-              ← Back
-            </button>
+            <p className="step">STEP 2 OF 4</p>
 
-            <p style={stepStyle}>STEP 2 OF 4</p>
+            <h1>What feels most like you?</h1>
 
-            <h1 style={headingStyle}>
-              What feels most like you?
-            </h1>
-
-            <p style={descriptionStyle}>
+            <p className="description">
               Choose the style you naturally feel drawn to.
             </p>
 
-            <div style={styleGrid}>
-              {styles.map((style) => (
+            <div className="grid">
+              {styles.map((item) => (
                 <button
-                  key={style}
-                  onClick={() => setSelectedStyle(style)}
-                  style={{
-                    ...styleButtonStyle,
-                    border:
-                      selectedStyle === style
-                        ? "2px solid #2d2926"
-                        : "1px solid #ddd5ce",
-                    background:
-                      selectedStyle === style
-                        ? "#eee8e0"
-                        : "white",
-                  }}
+                  key={item}
+                  className={style === item ? "style selected" : "style"}
+                  onClick={() => setStyle(item)}
                 >
-                  {style}
+                  {item}
                 </button>
               ))}
             </div>
 
-            {selectedStyle && (
-              <button
-                onClick={() => setStep(3)}
-                style={continueButtonStyle}
-              >
+            {style && (
+              <button className="continue" onClick={() => setStep(3)}>
                 Continue →
               </button>
             )}
           </>
         )}
 
-        {/* STEP 3 */}
         {step === 3 && (
           <>
-            <button
-              onClick={() => setStep(2)}
-              style={backButtonStyle}
-            >
-              ← Back
-            </button>
+            <p className="step">STEP 3 OF 4</p>
 
-            <p style={stepStyle}>STEP 3 OF 4</p>
+            <h1>Let&apos;s personalize this to you.</h1>
 
-            <h1 style={headingStyle}>
-              Let&apos;s personalize this to you.
-            </h1>
-
-            <p style={descriptionStyle}>
-              Add a photo so we can understand your coloring
-              and create recommendations that feel more personal
-              to you.
+            <p className="description">
+              Add a clear photo in natural light so we can personalize your
+              colors and styling recommendations.
             </p>
 
             {!photo ? (
-              <label style={photoBoxStyle}>
-                <span style={cameraIconStyle}>📸</span>
-
-                <span style={photoTitleStyle}>
-                  Take a photo or upload one
-                </span>
-
-                <span style={photoSubtitleStyle}>
-                  A clear, natural-light photo works best
-                </span>
+              <label className="photoBox">
+                <span className="camera">📸</span>
+                <strong>Take a photo or upload one</strong>
+                <small>A clear, natural-light photo works best</small>
 
                 <input
                   type="file"
                   accept="image/*"
                   capture="user"
-                  onChange={handlePhotoChange}
-                  style={{ display: "none" }}
+                  onChange={choosePhoto}
+                  hidden
                 />
               </label>
             ) : (
               <>
-                <div style={photoPreviewContainerStyle}>
-                  <img
-                    src={photo}
-                    alt="Your uploaded photo"
-                    style={photoPreviewStyle}
-                  />
-                </div>
+                <img
+                  src={photo}
+                  alt="Uploaded photo"
+                  className="preview"
+                />
 
-                <label style={changePhotoStyle}>
+                <label className="change">
                   Choose a different photo
-
                   <input
                     type="file"
                     accept="image/*"
                     capture="user"
-                    onChange={handlePhotoChange}
-                    style={{ display: "none" }}
+                    onChange={choosePhoto}
+                    hidden
                   />
                 </label>
 
-                <button
-                  onClick={() => setStep(4)}
-                  style={continueButtonStyle}
-                >
+                <button className="continue" onClick={() => setStep(4)}>
                   Continue →
                 </button>
               </>
             )}
-
-            <p style={privacyStyle}>
-              Your photo will be used to personalize your
-              style recommendations.
-            </p>
           </>
         )}
 
-        {/* STEP 4 */}
         {step === 4 && (
           <>
-            <button
-              onClick={() => setStep(3)}
-              style={backButtonStyle}
-            >
-              ← Back
-            </button>
+            <p className="step">STEP 4 OF 4</p>
 
-            <p style={stepStyle}>STEP 4 OF 4</p>
+            <h1>Almost there.</h1>
 
-            <h1 style={headingStyle}>
-              Almost there.
-            </h1>
-
-            <p style={descriptionStyle}>
-              We have what we need to create your personalized
-              style guide.
+            <p className="description">
+              Your personalized style recommendations are ready to be created.
             </p>
 
-            <div style={summaryStyle}>
+            <div className="summary">
               <p>
-                <strong>Occasion:</strong> {occasion}
+                <strong>Your occasion:</strong> {occasion}
               </p>
 
               <p>
-                <strong>Style:</strong> {selectedStyle}
+                <strong>Your style:</strong> {style}
               </p>
 
               <p>
-                <strong>Photo:</strong>{" "}
-                {photo ? "Added ✓" : "Not added"}
+                <strong>Your photo:</strong> {photo ? "Added ✓" : "Not added"}
               </p>
             </div>
 
             <button
-              onClick={() => alert("Style Guide coming next!")}
-              style={continueButtonStyle}
+              className="continue"
+              onClick={() => alert("Your Style Guide is coming next!")}
             >
               Create My Style Guide ✨
             </button>
@@ -265,90 +188,165 @@ export default function Personalize() {
         )}
 
       </div>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background: #faf7f2;
+          color: #2d2926;
+          padding: 50px 24px;
+          box-sizing: border-box;
+          font-family: Arial, sans-serif;
+        }
+
+        .box {
+          max-width: 650px;
+          margin: auto;
+        }
+
+        .step {
+          color: #8a7d72;
+          font-size: 13px;
+          letter-spacing: 4px;
+          margin-bottom: 28px;
+        }
+
+        h1 {
+          font-family: Georgia, serif;
+          font-size: 48px;
+          line-height: 1.12;
+          font-weight: 500;
+          margin: 0 0 24px;
+        }
+
+        .description {
+          color: #6f665f;
+          font-size: 19px;
+          line-height: 1.6;
+          margin-bottom: 38px;
+        }
+
+        .options {
+          display: grid;
+          gap: 14px;
+        }
+
+        .option,
+        .style {
+          background: white;
+          border: 1px solid #ddd5ce;
+          color: #2d2926;
+          border-radius: 15px;
+          padding: 20px;
+          font-size: 17px;
+          text-align: left;
+          cursor: pointer;
+        }
+
+        .style {
+          text-align: center;
+        }
+
+        .selected {
+          border: 2px solid #2d2926;
+          background: #eee8e0;
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+
+        .continue {
+          width: 100%;
+          margin-top: 32px;
+          padding: 18px;
+          border: none;
+          border-radius: 30px;
+          background: #2d2926;
+          color: white;
+          font-size: 17px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .back {
+          background: none;
+          border: none;
+          padding: 0;
+          margin-bottom: 35px;
+          color: #77706a;
+          font-size: 16px;
+          cursor: pointer;
+        }
+
+        .photoBox {
+          min-height: 240px;
+          background: white;
+          border: 1px dashed #cfc5bc;
+          border-radius: 18px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          cursor: pointer;
+          padding: 25px;
+          box-sizing: border-box;
+        }
+
+        .camera {
+          font-size: 48px;
+          margin-bottom: 15px;
+        }
+
+        .photoBox strong {
+          font-size: 18px;
+        }
+
+        .photoBox small {
+          margin-top: 10px;
+          color: #8a817a;
+          font-size: 14px;
+        }
+
+        .preview {
+          width: 100%;
+          max-height: 430px;
+          object-fit: cover;
+          border-radius: 18px;
+          display: block;
+        }
+
+        .change {
+          display: block;
+          text-align: center;
+          margin-top: 15px;
+          color: #6f665f;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
+        .summary {
+          background: white;
+          border: 1px solid #ddd5ce;
+          border-radius: 18px;
+          padding: 25px;
+          font-size: 17px;
+          line-height: 1.5;
+        }
+
+        @media (max-width: 500px) {
+          h1 {
+            font-size: 43px;
+          }
+
+          .grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </main>
   );
 }
-
-/* PAGE */
-
-const pageStyle = {
-  minHeight: "100vh",
-  background: "#faf7f2",
-  color: "#2d2926",
-  fontFamily: "Arial, sans-serif",
-  padding: "50px 24px",
-};
-
-const containerStyle = {
-  maxWidth: "650px",
-  margin: "0 auto",
-};
-
-/* TEXT */
-
-const stepStyle = {
-  fontSize: "13px",
-  letterSpacing: "3px",
-  textTransform: "uppercase" as const,
-  color: "#8a7d72",
-};
-
-const headingStyle = {
-  fontFamily: "Georgia, serif",
-  fontSize: "44px",
-  lineHeight: "1.15",
-  fontWeight: "500",
-  marginTop: "25px",
-};
-
-const descriptionStyle = {
-  fontSize: "18px",
-  lineHeight: "1.6",
-  color: "#6f665f",
-  marginTop: "15px",
-};
-
-/* BUTTONS */
-
-const optionsStyle = {
-  display: "grid",
-  gap: "14px",
-  marginTop: "40px",
-};
-
-const optionButtonStyle = {
-  width: "100%",
-  padding: "18px 20px",
-  borderRadius: "14px",
-  color: "#2d2926",
-  fontSize: "16px",
-  textAlign: "left" as const,
-  cursor: "pointer",
-};
-
-const styleGrid = {
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: "14px",
-  marginTop: "40px",
-};
-
-const styleButtonStyle = {
-  padding: "22px 16px",
-  borderRadius: "14px",
-  color: "#2d2926",
-  fontSize: "16px",
-  cursor: "pointer",
-};
-
-const continueButtonStyle = {
-  width: "100%",
-  marginTop: "35px",
-  padding: "17px",
-  borderRadius: "30px",
-  border: "none",
-  background: "#2d2926",
-  color: "white",
-  fontSize: "16px",
-  fontWeight: "600",
-  cursor: "pointer",
