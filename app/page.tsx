@@ -5,187 +5,92 @@ import { useState } from "react";
 export default function Home() {
   const [started, setStarted] = useState(false);
 
-  return (
-    <main className="page">
-      <div className="hero">
-        <div className="badge">✨ Your personal style assistant</div>
-
-        <h1>
-          Your style.
-          <br />
-          <span>Elevated.</span>
-        </h1>
-
-        <p className="subtitle">
-          Discover colors, outfits and accessories that complement
-          your personal style.
-        </p>
-
-        {!started ? (
+  if (started) {
+    return (
+      <main className="min-h-screen bg-[#faf7f2] px-6 py-12 text-[#2d2926]">
+        <div className="mx-auto max-w-2xl">
           <button
-            className="button"
-            onClick={() => setStarted(true)}
+            onClick={() => setStarted(false)}
+            className="mb-10 text-sm text-[#6f665f] hover:underline"
           >
-            Get Started →
+            ← Back
           </button>
-        ) : (
-          <div className="card">
-            <h2>Let's discover your style.</h2>
 
-            <p>
-              In the next step, we'll learn about your preferences
-              and create personalised recommendations.
-            </p>
-<button className="button" onClick={() => setStarted(true)}>
-            
-              Start Personalisation →
+          <h1 className="text-4xl font-semibold tracking-tight">
+            Let&apos;s personalize your style
+          </h1>
+
+          <p className="mt-3 text-[#6f665f]">
+            Tell us a little about yourself so we can understand your style,
+            colors and preferences.
+          </p>
+
+          <div className="mt-10 space-y-6">
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                What are you dressing for?
+              </label>
+              <select className="w-full rounded-xl border border-[#ddd5ce] bg-white p-4 outline-none">
+                <option>Everyday / Casual</option>
+                <option>Work</option>
+                <option>College</option>
+                <option>Dates / Social events</option>
+                <option>Special occasions</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                What style feels most like you?
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                {["Minimal", "Elegant", "Trendy", "Classic"].map((style) => (
+                  <button
+                    key={style}
+                    className="rounded-xl border border-[#ddd5ce] bg-white p-4 text-left hover:border-[#2d2926]"
+                  >
+                    {style}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button className="w-full rounded-full bg-[#2d2926] py-4 font-medium text-white hover:opacity-90">
+              Continue
             </button>
           </div>
-        )}
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[#faf7f2] text-[#2d2926]">
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <p className="mb-4 text-sm uppercase tracking-[0.25em] text-[#8a7d72]">
+          Your personal style guide
+        </p>
+
+        <h1 className="max-w-3xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl">
+          Discover what looks best on <em className="font-normal">you.</em>
+        </h1>
+
+        <p className="mt-6 max-w-xl text-lg leading-8 text-[#6f665f]">
+          Personalized outfit, color, accessory and styling recommendations
+          designed around your features, lifestyle and personality.
+        </p>
+
+        <button
+          onClick={() => setStarted(true)}
+          className="mt-10 rounded-full bg-[#2d2926] px-8 py-4 font-medium text-white transition hover:scale-[1.02] hover:opacity-90"
+        >
+          Start Personalization →
+        </button>
+
+        <p className="mt-5 text-sm text-[#9a8f87]">
+          Takes less than 2 minutes
+        </p>
       </div>
-
-      <div className="features">
-        <div>
-          <span>🎨</span>
-          <h3>Colours</h3>
-          <p>Find colours that complement you.</p>
-        </div>
-
-        <div>
-          <span>👗</span>
-          <h3>Outfits</h3>
-          <p>Discover looks for every occasion.</p>
-        </div>
-
-        <div>
-          <span>💍</span>
-          <h3>Accessories</h3>
-          <p>Add the finishing touches.</p>
-        </div>
-      </div>
-
-      <style jsx>{`
-        * {
-          box-sizing: border-box;
-        }
-
-        .page {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #fff8f5, #f8f1ff);
-          color: #29232a;
-          font-family: Arial, sans-serif;
-          padding: 40px 20px;
-        }
-
-        .hero {
-          max-width: 850px;
-          margin: 0 auto;
-          text-align: center;
-          padding: 70px 20px 50px;
-        }
-
-        .badge {
-          display: inline-block;
-          padding: 10px 16px;
-          border-radius: 30px;
-          background: white;
-          font-size: 14px;
-          margin-bottom: 25px;
-          box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
-
-        h1 {
-          font-size: clamp(48px, 10vw, 88px);
-          line-height: 0.95;
-          margin: 0;
-          letter-spacing: -4px;
-        }
-
-        h1 span {
-          font-style: italic;
-        }
-
-        .subtitle {
-          max-width: 560px;
-          margin: 28px auto;
-          font-size: 19px;
-          line-height: 1.6;
-          color: #6d626b;
-        }
-
-        .button {
-          border: none;
-          background: #29232a;
-          color: white;
-          padding: 16px 28px;
-          border-radius: 40px;
-          font-size: 16px;
-          cursor: pointer;
-          margin-top: 10px;
-        }
-
-        .button:hover {
-          transform: translateY(-2px);
-        }
-
-        .card {
-          max-width: 520px;
-          margin: 30px auto;
-          padding: 35px;
-          background: white;
-          border-radius: 25px;
-          box-shadow: 0 15px 50px rgba(0,0,0,0.08);
-        }
-
-        .card h2 {
-          margin-top: 0;
-          font-size: 28px;
-        }
-
-        .card p {
-          color: #6d626b;
-          line-height: 1.6;
-        }
-
-        .features {
-          max-width: 900px;
-          margin: 20px auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 18px;
-        }
-
-        .features div {
-          background: rgba(255,255,255,0.8);
-          padding: 28px 20px;
-          border-radius: 22px;
-          text-align: center;
-        }
-
-        .features span {
-          font-size: 30px;
-        }
-
-        .features h3 {
-          margin-bottom: 8px;
-        }
-
-        .features p {
-          color: #6d626b;
-          line-height: 1.5;
-          font-size: 14px;
-        }
-
-        @media (max-width: 650px) {
-          .features {
-            grid-template-columns: 1fr;
-          }
-
-          .hero {
-            padding-top: 40px;
-          }
-        }
-      `}</style>
     </main>
   );
-}
+}                    
